@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+  <div class="card" style="max-width: 600px; margin: 2rem auto;">
+    <h1>Student Portal</h1>
+    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+      <input type="text" id="rollNo" placeholder="Enter Roll No" style="flex: 1;">
+      <button onclick="fetchStudent()" class="btn">View Details</button>
+    </div>
+    <div id="studentDetails" class="card" style="display: none;">
+      <h2>Student Details</h2>
+      <div id="detailsContent"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function fetchStudent() {
+    const rollNo = document.getElementById("rollNo").value;
+    if (!rollNo) {
+      alert("Please enter a roll number");
+      return;
+    }
+
+    const detailsCard = document.getElementById("studentDetails");
+    detailsCard.style.display = 'none';
+
+    fetch(`http://localhost:8080/students/${rollNo}`)
+      .then(response => {
+        if (!response.ok) throw new Error('Student not found');
+        return response.json();
+      })
+      .then(data => {
+        document.getElementById("detailsContent").innerHTML = `
+          <p><strong>Roll No:</strong> ${data.rollNo}</p>
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Percentage:</strong> ${data.percentage}</p>
+          <p><strong>Branch:</strong> ${data.branch}</p>
+        `;
+        detailsCard.style.display = 'block';
+      })
+      .catch(error => {
+        document.getElementById("detailsContent").innerHTML = `
+          <p class="error">Error: ${error.message}</p>
+          <p>Please check the roll number and try again.</p>
+        `;
+        detailsCard.style.display = 'block';
+      });
+  }
+</script>
+</body>
+</html>

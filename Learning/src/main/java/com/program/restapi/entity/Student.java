@@ -1,64 +1,86 @@
 package com.program.restapi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="student")
+@Table(name = "students") // Use plural naming convention
 public class Student {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)//it will automatically create the rollno of the studend 
-	private int rollNo;
-	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long rollNo;
+
+	@Column(nullable = false)
 	private String name;
-	@Column
-	private float percentage;
-	@Column
+
+	@Column(nullable = false)
+	private double percentage; // Changed to double (better for precision)
+
+	@Column(nullable = false)
 	private String branch;
-	public Student() {
-		//this is a default constructor
-	}
-	
-	public Student(String name, float percentage, String branch) {
-		super();
+
+	@Column(nullable = true)
+	private String email;
+
+	@Column(nullable = true)
+	private Integer age;
+
+	// Constructors
+	public Student() {}
+
+	public Student(String name, double percentage, String branch, String email, Integer age) {
 		this.name = name;
 		this.percentage = percentage;
 		this.branch = branch;
+		this.email = email;
+		this.age = age;
 	}
 
-	public int getRollNo() {
+	// Getters and Setters
+	public Long getRollNo() {
 		return rollNo;
 	}
-	public void setRollNo(int rollNo) {
+
+	public void setRollNo(Long rollNo) {
 		this.rollNo = rollNo;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public float getPercentage() {
+
+	public double getPercentage() {
 		return percentage;
 	}
-	public void setPercentage(float percentage) {
+
+	public void setPercentage(double percentage) {
 		this.percentage = percentage;
 	}
+
 	public String getBranch() {
 		return branch;
 	}
+
 	public void setBranch(String branch) {
 		this.branch = branch;
 	}
-	@Override
-	public String toString() {
-		return "Student [rollNo=" + rollNo + ", name=" + name + ", percentage=" + percentage + ", branch=" + branch
-				+ "]";
-	}
-	
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
 }
