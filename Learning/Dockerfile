@@ -1,5 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine
-
+FROM openjdk:17-alpine
 WORKDIR /app
 
 COPY target/*.jar app.jar
