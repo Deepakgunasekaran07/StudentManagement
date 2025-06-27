@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -30,18 +29,24 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/students/**",
+                                "/",                     // root
+                                "/index.html",          // main page
+                                "/admin.html",          // admin panel
+                                "/student.html",        // student panel
+                                "/styles.css",          // styles
+                                "/script.js",           // JS
+                                "/favicon.ico",         // icon
+                                "/students/**",         // REST endpoints
                                 "/api/**",
                                 "/auth/**",
-                                "/",
                                 "/admin/**",
-                                "/v3/api-docs/**",
+                                "/v3/api-docs/**",      // Swagger
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().authenticated() // everything else requires login
                 )
-                .httpBasic(); // For Postman, etc.
+                .httpBasic(); // enables browser login popup for protected endpoints
 
         return http.build();
     }
@@ -49,11 +54,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*")); // ✅ Use origin patterns
+        config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("Authorization", "Content-Type", "Content-Disposition"));
-        config.setAllowCredentials(true); // ✅ Now works fine with origin patterns
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
