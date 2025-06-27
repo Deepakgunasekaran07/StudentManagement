@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/students")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Allow all origins (you can restrict it in prod)
 public class StudentControler {
 
 	private final StudentService studentService;
@@ -18,34 +18,44 @@ public class StudentControler {
 		this.studentService = studentService;
 	}
 
-	// Get all students
+	// ✅ GET all students
 	@GetMapping
 	public ResponseEntity<List<Student>> getAllStudents() {
 		return ResponseEntity.ok(studentService.getAllStudents());
 	}
 
-	// Get student by ID
+	// ✅ GET student by ID
 	@GetMapping("/{id}")
 	public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
 		return ResponseEntity.ok(studentService.getStudentById(id));
 	}
 
-	// Create a new student
+	// ✅ CREATE a new student
 	@PostMapping
 	public ResponseEntity<Student> createStudent(@RequestBody Student student) {
 		return ResponseEntity.ok(studentService.saveStudent(student));
 	}
 
-	// Update student
+	// ✅ UPDATE student by ID
 	@PutMapping("/{id}")
 	public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
 		return ResponseEntity.ok(studentService.updateStudent(id, student));
 	}
 
-	// Delete student
+	// ✅ DELETE student by ID
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
 		studentService.deleteStudent(id);
 		return ResponseEntity.ok("Student deleted successfully!");
+	}
+
+	// ✅ Test endpoint to create a sample student (optional)
+	@GetMapping("/test-create")
+	public ResponseEntity<String> testCreateStudent() {
+		Student sample = new Student();
+		sample.setName("Sample Student");
+		sample.setBranch("IT");
+		studentService.saveStudent(sample);
+		return ResponseEntity.ok("Sample student created!");
 	}
 }
