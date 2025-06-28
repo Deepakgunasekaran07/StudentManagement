@@ -51,22 +51,12 @@ public class SecurityConfig {
                 "http://127.0.0.1:5500",
                 "http://localhost:3000",
                 "http://localhost:8080",
-                "null"
+                "null",
+                "https://studentmanagement-4-98n9.onrender.com"
         ));
-        configuration.setAllowedMethods(Arrays.asList(
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
-        ));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of(
-                "Authorization",
-                "Content-Type",
-                "Content-Disposition"
-        ));
+        configuration.setExposedHeaders(List.of("Authorization", "Content-Type", "Content-Disposition"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

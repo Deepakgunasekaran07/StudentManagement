@@ -1,10 +1,10 @@
 let studentsData = [];
 
 // ✅ Dynamic base URL: local if localhost, else Render
-const API_BASE_URL = window.location.hostname === 'localhost'
+const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+const API_BASE_URL = isLocalhost
   ? 'http://localhost:8080'
   : 'https://studentmanagement-4-98n9.onrender.com';
-
 document.addEventListener('DOMContentLoaded', fetchStudents);
 
 function fetchStudents() {

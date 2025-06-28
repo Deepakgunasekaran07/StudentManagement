@@ -1,5 +1,10 @@
 let studentsData = [];
 
+// ✅ Dynamic base URL: local if localhost, else Render
+const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+const API_BASE_URL = isLocalhost
+  ? 'http://localhost:8080'
+  : 'https://studentmanagement-4-98n9.onrender.com';
 document.addEventListener('DOMContentLoaded', fetchStudents);
 
 function fetchStudents() {
@@ -60,7 +65,7 @@ function addStudent() {
     branch: document.getElementById('addBranch').value.trim()
   };
 
-  fetch('http://localhost:8080/students', {
+  fetch(`${API_BASE_URL}/students`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(student)
@@ -88,7 +93,7 @@ function saveEdit(button, id) {
     branch: row.querySelectorAll("input[type=text]")[1].value
   };
 
-  fetch(`http://localhost:8080/students/${id}`, {
+  fetch(`${API_BASE_URL}/students/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(student)
@@ -99,6 +104,6 @@ function saveEdit(button, id) {
 }
 
 function deleteStudent(id) {
-  fetch(`http://localhost:8080/students/${id}`, { method: 'DELETE' })
+  fetch(`${API_BASE_URL}/students/${id}`, { method: 'DELETE' })
     .then(() => fetchStudents());
 }
