@@ -8,7 +8,7 @@ const API_BASE_URL = isLocalhost
 document.addEventListener('DOMContentLoaded', fetchStudents);
 
 function fetchStudents() {
-  fetch('http://localhost:8080/students')
+  fetch(`${API_BASE_URL}/students`)
     .then(response => response.json())
     .then(data => {
       studentsData = data;
